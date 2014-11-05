@@ -1,15 +1,15 @@
 package jp.level_five.pgcon.building_block;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Relation {
     
     private List<Cube> cubes_;
-    private LinkedHashMap<String, LinkedList<String>> relation_ = new LinkedHashMap<String, LinkedList<String>>();
+    private LinkedHashMap<String, List<String>> relation_ = new LinkedHashMap<String, List<String>>();
     
-    public LinkedHashMap<String, LinkedList<String>> create(List<Cube> cubes) {
+    public LinkedHashMap<String, List<String>> create(List<Cube> cubes) {
         cubes_ = cubes;
         for (Cube lightCube : cubes_) {
             sortLightCubes(lightCube);
@@ -44,9 +44,9 @@ public class Relation {
     }
     
     private void createRelation(String parentID, String childID) {
-        LinkedList<String> children = relation_.get(parentID);
+        List<String> children = relation_.get(parentID);
         if (children == null) {
-            children = new LinkedList<String>();
+            children = new ArrayList<String>();
         }
         children.add(childID);
         relation_.put(parentID, children);
