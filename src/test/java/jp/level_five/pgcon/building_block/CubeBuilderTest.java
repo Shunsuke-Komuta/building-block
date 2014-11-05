@@ -2,7 +2,7 @@ package jp.level_five.pgcon.building_block;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -15,9 +15,20 @@ public class CubeBuilderTest {
         Cube.initilizeCubeCount();
     }
     
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testWhenCubeOfCubesIsNull() {
+        List<Cube> cubes = new ArrayList<Cube>();
+        
+        new CubeBuilder(cubes);
+    }
+
+    
     @Test
     public void test2IsExpectedWhenOpositefaceIs2() {
-        List<Cube> cubes = new LinkedList<Cube>();
+        List<Cube> cubes = new ArrayList<Cube>();
+        String[] faces1 = {"1", "2", "3", "4", "5", "6"};
+        cubes.add(new Cube(faces1));
+        
         CubeBuilder cubeBuilder = new CubeBuilder(cubes);
         
         String actual = cubeBuilder.getOpositeface("1 front");
@@ -27,7 +38,9 @@ public class CubeBuilderTest {
     
     @Test
     public void test1IsExpectedWhenOpositefaceIs1() {
-        List<Cube> cubes = new LinkedList<Cube>();
+        List<Cube> cubes = new ArrayList<Cube>();
+        String[] faces1 = {"1", "2", "3", "4", "5", "6"};
+        cubes.add(new Cube(faces1));
         CubeBuilder cubeBuilder = new CubeBuilder(cubes);
         
         String actual = cubeBuilder.getOpositeface("1 back");
@@ -37,7 +50,9 @@ public class CubeBuilderTest {
     
     @Test
     public void test4IsExpectedWhenOpositefaceIs4() {
-        List<Cube> cubes = new LinkedList<Cube>();
+        List<Cube> cubes = new ArrayList<Cube>();
+        String[] faces1 = {"1", "2", "3", "4", "5", "6"};
+        cubes.add(new Cube(faces1));
         CubeBuilder cubeBuilder = new CubeBuilder(cubes);
         
         String actual = cubeBuilder.getOpositeface("1 left");
@@ -47,7 +62,7 @@ public class CubeBuilderTest {
     
     @Test
     public void test2CubesAreBuilt() {
-        List<Cube> cubes = new LinkedList<Cube>();
+        List<Cube> cubes = new ArrayList<Cube>();
         String[] faces1 = {"1", "2", "3", "4", "5", "6"};
         cubes.add(new Cube(faces1));
         String[] faces2 = {"7", "8", "9", "10", "11", "1"};
@@ -62,7 +77,7 @@ public class CubeBuilderTest {
     
     @Test
     public void test2CubesAreBuiltWhenSecondCubeIsNoRelation() {
-        List<Cube> cubes = new LinkedList<Cube>();
+        List<Cube> cubes = new ArrayList<Cube>();
         String[] faces1 = {"1", "2", "3", "4", "5", "6"};
         cubes.add(new Cube(faces1));
         String[] faces2 = {"7", "8", "9", "10", "11", "12"};
@@ -80,7 +95,7 @@ public class CubeBuilderTest {
     
     @Test
     public void test3CubesAreBuilt() {
-        List<Cube> cubes = new LinkedList<Cube>();
+        List<Cube> cubes = new ArrayList<Cube>();
         String[] faces1 = {"100", "2", "3", "4", "5", "6"};
         cubes.add(new Cube(faces1));
         String[] faces2 = {"7", "8", "300", "100", "10", "11"};
@@ -99,7 +114,7 @@ public class CubeBuilderTest {
     
     @Test
     public void testOutput() {
-        List<Cube> cubes = new LinkedList<Cube>();
+        List<Cube> cubes = new ArrayList<Cube>();
         String[] faces1 = {"1", "1", "1", "2", "2", "2"};
         cubes.add(new Cube(faces1));
         String[] faces2 = {"3", "3", "3", "3", "3", "3"};
@@ -113,21 +128,21 @@ public class CubeBuilderTest {
         System.out.println(actual);
     }
     
-    // @Test
-    // public void testNoCubeIsBuilt() {
-    // List<Cube> cubes = new LinkedList<Cube>();
-    // String[] faces1 = {"1", "2", "3", "4", "5", "6"};
-    // cubes.add(new Cube(faces1));
-    // String[] faces2 = {"7", "8", "9", "10", "11", "12"};
-    // cubes.add(new Cube(faces2));
-    // String[] faces3 = {"13", "14", "15", "16", "17", "18"};
-    // cubes.add(new Cube(faces3));
-    //
-    // CubeBuilder cubeBuilder = new CubeBuilder(cubes);
-    //
-    // List<String> actual = cubeBuilder.getBuiltCubes();
-    // System.out.println(actual);
-    //
-    // assertEquals("1 front", actual.get(0));
-    // }
+     @Test
+     public void testNoCubeIsBuilt() {
+     List<Cube> cubes = new ArrayList<Cube>();
+     String[] faces1 = {"1", "2", "3", "4", "5", "6"};
+     cubes.add(new Cube(faces1));
+     String[] faces2 = {"7", "8", "9", "10", "11", "12"};
+     cubes.add(new Cube(faces2));
+     String[] faces3 = {"13", "14", "15", "16", "17", "18"};
+     cubes.add(new Cube(faces3));
+    
+     CubeBuilder cubeBuilder = new CubeBuilder(cubes);
+    
+     List<String> actual = cubeBuilder.getBuiltCubes();
+     System.out.println(actual);
+    
+     assertEquals("1 top", actual.get(0));
+     }
 }
