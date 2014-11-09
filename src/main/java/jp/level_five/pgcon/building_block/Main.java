@@ -13,15 +13,13 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             int count = Integer.parseInt(reader.readLine());
-            List<Cube> cubes = new ArrayList<Cube>();
+            List<String> cubeColors = new ArrayList<String>();
             for (int i = 0; i < count; i++) {
                 String string = reader.readLine();
-                String[] sides = string.split(" ");
-                cubes.add(new Cube(sides));
+                cubeColors.add(string);
             }
-            CubeBuilder cubeBuilder = new CubeBuilder(cubes);
-            List<String> builtCubes = cubeBuilder.getBuiltCubes();
-            
+            CubeBuilder cubeBuilder = new CubeBuilder(cubeColors);
+            List<String> builtCubes = cubeBuilder.build();
             System.out.println(builtCubes.size());
             for (String cubeFaceData : builtCubes) {
                 System.out.println(cubeFaceData);

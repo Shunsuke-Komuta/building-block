@@ -1,26 +1,30 @@
 package jp.level_five.pgcon.building_block;
 
-public class Cube {
-    private static int cubeCount_;
+public abstract class Cube {
+    public static final String[] FACE_NAMES = {"front", "back", "left", "right", "top", "bottom"};
     
-    private final String[] faceColors_;
-    private final int cubeNumber_;
+    protected static int cubeCount;
+    protected int cubeID;
+    protected String[] colorIDs;
+    
+    public abstract String getFaceID(int i);
     
     public static void initilizeCubeCount() {
-        cubeCount_ = 0;
+        cubeCount = 0;
     }
     
-    public Cube(String[] faceColors) {
-        cubeNumber_ = ++cubeCount_;
-        faceColors_ = faceColors;
+    protected void realize(String colors) {
+        cubeID = ++cubeCount;
+        colorIDs = colors.split(" ");
+    }
+
+    
+    public int getCubeCount() {
+        return cubeID;
     }
     
-    public String[] getFaceColors() {
-        return faceColors_;
-    }
-    
-    public int getNumber() {
-        return cubeNumber_;
+    public String[] getColors() {
+        return colorIDs;
     }
     
 }

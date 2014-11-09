@@ -1,38 +1,32 @@
 package jp.level_five.pgcon.building_block;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CubeBuilder {
-    public static final String[] FACE_NAMES = {"front", "back", "left", "right", "top", "bottom"};
     
-    private LinkedHashMap<String, List<String>> relation_;
+    private Map<String, List<String>> relation;
     private List<String> builtCubes_ = new ArrayList<String>();
     
-    public CubeBuilder(List<Cube> cubes) {
-        Relation relation = new Relation();
-        relation_ = relation.create(cubes);
-        builtCubes_.add(cubes.get(0).getNumber() + " top");
-        build();
+    public CubeBuilder(List<String> cubeColors) {
+        Associater associater = new Associater();
+        relation = associater.createAssociations(cubeColors);
     }
     
-    public List<String> getBuiltCubes() {
-        return builtCubes_;
-    }
-    
-    private void build() {
-        for (String bottomFace : relation_.keySet()) {
+    public List<String> build() {
+        for (String bottomFace : relation.keySet()) {
             List<String> builtCubes = new ArrayList<String>();
             String topFace = getOpositeface(bottomFace);
             builtCubes.add(topFace);
-            List<String> relationsToButtom = relation_.get(bottomFace);
+            List<String> relationsToButtom = relation.get(bottomFace);
             next(relationsToButtom, builtCubes);
         }
+        return builtCubes_;
     }
     
     private void next(List<String> relationsToButtom, List<String> builtCubes) {
-        if (relationsToButtom != null) {
+        if (!relationsToButtom.isEmpty()) {
             sortChildren(relationsToButtom, builtCubes);
         } else {
             compare(builtCubes);
@@ -51,7 +45,7 @@ public class CubeBuilder {
             List<String> copyBuiltCubes = new ArrayList<String>(builtCubes);
             copyBuiltCubes.add(topFace);
             String bottomFace = getOpositeface(topFace);
-            List<String> relationToBottom = relation_.get(bottomFace);
+            List<String> relationToBottom = relation.get(bottomFace);
             next(relationToBottom, copyBuiltCubes);
             copyBuiltCubes = null;
         }
@@ -61,8 +55,8 @@ public class CubeBuilder {
     public String getOpositeface(String faceID) {
         String opositeFaceID = null;
         String[] split = faceID.split(" ");
-        for (int i = 0; i < FACE_NAMES.length; i++) {
-            if (split[1].equals((FACE_NAMES[i]))) {
+        for (int i = 0; i < Cube.FACE_NAMES.length; i++) {
+            if (split[1].equals((Cube.FACE_NAMES[i]))) {
                 if (i % 2 == 0) {
                     opositeFaceID = createID(split[0], i + 1);
                 } else {
@@ -74,6 +68,6 @@ public class CubeBuilder {
     }
     
     private String createID(String cubeNumber, int index) {
-        return cubeNumber + " " + FACE_NAMES[index];
+        return cubeNumber + " " + Cube.FACE_NAMES[index];
     }
 }

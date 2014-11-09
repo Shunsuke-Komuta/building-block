@@ -13,11 +13,35 @@ public class CubeTest {
     }
     
     @Test
-    public void testArrayIsExpected() {
-        String[] faces = {"1", "2", "3", "4", "5", "6"};
-        Cube cube = new Cube(faces);
+    public void test1IsExpectedWhenCubeIsOnlyOneNew() {
+        String colors = "1 2 3 4 5 6";
+        Cube cube = new Relation(colors);
         
-        String[] actuals = cube.getFaceColors();
+        int actual = cube.getCubeCount();
+        
+        assertEquals(1, actual);
+    }
+    
+    @Test
+    public void test2IsExpectedWhenCubeIsTwiceNew() {
+        String colors1 = "1 2 3 4 5 6";
+        Cube cube1 = new Relation(colors1);
+        String colors2 = "1 2 3 4 5 6";
+        Cube cube2 = new Relation(colors2);
+        
+        int actual1 = cube1.getCubeCount();
+        int actual2 = cube2.getCubeCount();
+        
+        assertEquals(1, actual1);
+        assertEquals(2, actual2);
+    }
+    
+    @Test
+    public void testArrayIsExpected() {
+        String colors = "1 2 3 4 5 6";
+        Cube cube = new Relation(colors);
+        
+        String[] actuals = cube.getColors();
         
         assertEquals("1", actuals[0]);
         assertEquals("2", actuals[1]);
@@ -27,27 +51,4 @@ public class CubeTest {
         assertEquals("6", actuals[5]);
     }
     
-    @Test
-    public void test1IsExpectedWhenCubeIsOnlyOneNew() {
-        String[] faces = {"1", "2", "3", "4", "5", "6"};
-        Cube cube = new Cube(faces);
-        
-        int actual = cube.getNumber();
-        
-        assertEquals(1, actual);
-    }
-    
-    @Test
-    public void test2IsExpectedWhenCubeIsTwiceNew() {
-        String[] faces1 = {"1", "2", "3", "4", "5", "6"};
-        Cube cube1 = new Cube(faces1);
-        String[] faces2 = {"3", "5", "6", "1", "2", "4",};
-        Cube cube2 = new Cube(faces2);
-        
-        int actual1 = cube1.getNumber();
-        int actual2 = cube2.getNumber();
-        
-        assertEquals(1, actual1);
-        assertEquals(2, actual2);
-    }
 }
