@@ -26,7 +26,7 @@ public class CubeBuilder {
     }
     
     private void next(List<String> relationsToButtom, List<String> builtCubes) {
-        if (!relationsToButtom.isEmpty()) {
+        if (relationsToButtom != null) {
             sortChildren(relationsToButtom, builtCubes);
         } else {
             compare(builtCubes);

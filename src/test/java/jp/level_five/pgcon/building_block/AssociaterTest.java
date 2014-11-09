@@ -43,7 +43,7 @@ public class AssociaterTest {
         Map<String, List<String>> association = associater.createAssociations(cubes);
         List<String> actual = association.get("1 front");
         
-        assertTrue(actual.isEmpty());
+        assertNull(actual);
     }
     
     @Test
