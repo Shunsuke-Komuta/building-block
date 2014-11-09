@@ -36,22 +36,26 @@ public class Associater {
     }
 
     private ArrayList<String> findSameColors(int srcCubeCount, String srcColor, List<Cube> cubes) {
-        ArrayList<String> dstColorList = new ArrayList<String>();
+        ArrayList<String> dstColorList = null;
         for (int i = srcCubeCount; i < cubes.size(); i++) {
             Cube dstCube = cubes.get(i);
-            appendDstColors(srcColor, dstColorList, dstCube);
+            dstColorList = appendDstColors(srcColor, dstColorList, dstCube);
         }
         return dstColorList;
     }
 
-    private void appendDstColors(String srcColor, ArrayList<String> dstColorList, Cube dstCube) {
+    private ArrayList<String> appendDstColors(String srcColor, ArrayList<String> dstColorList, Cube dstCube) {
         String[] dstColors = dstCube.getColors();
         for (int i = 0; i < dstColors.length; i++) {
             if (srcColor.equals(dstColors[i])) {
+                if (dstColorList == null) {
+                    dstColorList = new ArrayList<String>();
+                }
                 String dstFaceID = dstCube.getFaceID(i);
                 dstColorList.add(dstFaceID);
             }
         }
+        return dstColorList;
     }
     
 }
