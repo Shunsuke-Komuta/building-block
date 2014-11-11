@@ -1,15 +1,23 @@
 package jp.level_five.pgcon.building_block;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class AssociaterTest {
+    private List<String> cubes;
+    private Associater associater;
+    
+    @Before
+    public void setUp() {
+        cubes = new ArrayList<String>();
+        associater = new Associater();
+    }
     
     @After
     public void tearDown() {
@@ -18,64 +26,58 @@ public class AssociaterTest {
     
     @Test
     public void test2backIsExpected() {
-        List<String> cubes = new ArrayList<String>();
         String colors1 = "1 2 3 4 5 6";
+        String colors2 = "1 1 1 1 6 1";
         cubes.add(colors1);
-        String colors2 = "6 1 2 3 4 5";
         cubes.add(colors2);
+        associater = new Associater();
+        List<Cube> association = associater.setRelations(cubes);
+        Cube light = association.get(0);
+        String[] dstFaceIDs = light.getDstFaceIDs();
         
-        Associater associater = new Associater();
-        Map<String, List<String>> association = associater.createAssociations(cubes);
-
-        List<String> actual = association.get("1 front");
+        String actual = dstFaceIDs[Cube.TOP];
         
-        assertEquals("2 back", actual.get(0));
+        assertEquals("2 top", actual);
         }
     
     @Test
-    public void testNullIsExpected() {
-        List<String> cubes = new ArrayList<String>();
+    public void testNullCharcterIsExpected() {
         cubes.add("1 2 3 4 5 6");
-        cubes.add("2 2 2 2 2 2");
+        cubes.add("7 7 7 7 7 7");
+        List<Cube> association = associater.setRelations(cubes);
+        Cube light = association.get(0);
+        String[] dstFaceIDs = light.getDstFaceIDs();
         
-        Associater associater = new Associater();
+        String actual = dstFaceIDs[Cube.FRONT];
         
-        Map<String, List<String>> association = associater.createAssociations(cubes);
-        List<String> actual = association.get("1 front");
-        
-        assertNull(actual);
+        assertEquals("", actual);
     }
     
     @Test
-    public void test3ResultsAreExpectedWhen3Maching() {
-        List<String> cubes = new ArrayList<String>();
+    public void test3topIsExpected() {
         cubes.add("1 2 3 4 5 6");
-        cubes.add("7 7 7 1 1 1");
+        cubes.add("7 7 7 7 7 7");
+        cubes.add("7 7 7 7 6 7");
+        List<Cube> association = associater.setRelations(cubes);
+        Cube light = association.get(0);
+        String[] dstFaceIDs = light.getDstFaceIDs();
         
-        Associater associater = new Associater();
+        String actual = dstFaceIDs[Cube.TOP];
         
-        Map<String, List<String>> association = associater.createAssociations(cubes);
-        List<String> actual = association.get("1 front");
-        
-        assertEquals("2 right", actual.get(0));
-        assertEquals("2 top", actual.get(1));
-        assertEquals("2 bottom", actual.get(2));
+        assertEquals("3 top", actual);
     }
     
     @Test
-    public void test2ResultsAreExpectedWhen2MachingBySomeCubes() {
-        List<String> cubes = new ArrayList<String>();
+    public void test2IsExpectedWhen2BlocksAreBuilt() {
         cubes.add("1 2 3 4 5 6");
-        cubes.add("7 1 7 7 7 7");
-        cubes.add("7 7 1 7 7 7");
+        cubes.add("7 7 7 7 6 7");
+        cubes.add("7 7 7 7 6 7");
+        List<Cube> association = associater.setRelations(cubes);
+        Cube light = association.get(0);
+
+        int actual = light.getRelationCount(Cube.TOP);
         
-        Associater associater = new Associater();
-        
-        Map<String, List<String>> association = associater.createAssociations(cubes);
-        List<String> actual = association.get("1 front");
-        
-        assertEquals("2 back", actual.get(0));
-        assertEquals("3 left", actual.get(1));
+        assertEquals(2, actual);
     }
 }
 

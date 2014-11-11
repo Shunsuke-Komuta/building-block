@@ -1,61 +1,53 @@
 package jp.level_five.pgcon.building_block;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Associater {
-
-    Map<String, List<String>> relations;
     
     public Associater() {
-        relations = new LinkedHashMap<String, List<String>>();
     }
-
+    
     private List<Cube> createCubes(List<String> cubeColors) {
         List<Cube> cubes = new ArrayList<Cube>();
         for (String cubeColor : cubeColors) {
-            Cube cube = new Relation(cubeColor);
+            Cube cube = new Cube(cubeColor);
             cubes.add(cube);
         }
         return cubes;
     }
     
-    public Map<String, List<String>> createAssociations(List<String> cubeColors) {
+    public List<Cube> setRelations(List<String> cubeColors) {
         List<Cube> cubes = createCubes(cubeColors);
-        for (Cube srcCube : cubes) {
-            int colorCount = 0;
-            for (String srcColor : srcCube.getColors()) {
-                String srcFaceID = srcCube.getFaceID(colorCount++);
-                ArrayList<String> dstFaceIDList = findSameColors(srcCube.getCubeCount(), srcColor, cubes);
-                relations.put(srcFaceID, dstFaceIDList);
-            }
+        for (int i = cubes.size(); i > 0; i--) {
+            int cubeCount = i;
+            Cube dstCube = cubes.get(cubeCount - 1);
+            findSameColors(cubes, cubeCount, dstCube);
         }
-        return relations;
-    }
-
-    private ArrayList<String> findSameColors(int srcCubeCount, String srcColor, List<Cube> cubes) {
-        ArrayList<String> dstColorList = null;
-        for (int i = srcCubeCount; i < cubes.size(); i++) {
-            Cube dstCube = cubes.get(i);
-            dstColorList = appendDstColors(srcColor, dstColorList, dstCube);
-        }
-        return dstColorList;
-    }
-
-    private ArrayList<String> appendDstColors(String srcColor, ArrayList<String> dstColorList, Cube dstCube) {
-        String[] dstColors = dstCube.getColors();
-        for (int i = 0; i < dstColors.length; i++) {
-            if (srcColor.equals(dstColors[i])) {
-                if (dstColorList == null) {
-                    dstColorList = new ArrayList<String>();
-                }
-                String dstFaceID = dstCube.getFaceID(i);
-                dstColorList.add(dstFaceID);
-            }
-        }
-        return dstColorList;
+        return cubes;
     }
     
+    private void findSameColors(List<Cube> cubes, int dstCubeCount, Cube dstCube) {
+        String[] dstColors = dstCube.getColors();
+        for (int i = 0; i < dstColors.length; i++) {
+            for (int j = dstCubeCount - 1; j > 0; j--) {
+                int srcCubeCount = j;
+                Cube srcCube = cubes.get(srcCubeCount -1);
+                findSameColor(srcCube, dstCube, i);
+            }
+            
+        }
+    }
+    
+    private void findSameColor(Cube srcCube, Cube dstCube, int dstFaceIndex) {
+        String[] dstColors = dstCube.getColors();
+        String dstColor = dstColors[dstFaceIndex];
+        int srcFaceIndex = 0;
+        for (String srcColor : srcCube.getColors()) {
+            if (srcColor.equals(dstColor)) {
+                srcCube.setRelation(srcFaceIndex, dstFaceIndex, dstCube);
+            }
+            srcFaceIndex++;
+        }
+    }
 }
