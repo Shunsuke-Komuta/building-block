@@ -24,6 +24,7 @@ public class Main {
             for (String cubeFaceData : builtCubes) {
                 System.out.println(cubeFaceData);
             }
+            
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {

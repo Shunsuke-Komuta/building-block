@@ -9,12 +9,12 @@ public class Cube {
     public static final int BOTTOM = 5;
     
     private static int cubeCount;
-    private static String[] faceNames = {"front", "back", "left", "right", "top", "bottom"};
     
     private final int cubeID;
     private String[] colorIDs;
-    private int[] maxfaceRelationCount = {0, 0, 0, 0, 0, 0};
-    private String[] dstFaceIDs = {"", "", "", "", "", ""};
+    
+    private int[] maxfaceRelationCount = new int[6];
+    private int[][] dstFaceIDs = new int[6][2];
     
     public static void initilizeCubeCount() {
         cubeCount = 0;
@@ -33,22 +33,26 @@ public class Cube {
         return colorIDs;
     }
     
-    public int getRelationCount(int faceIndex) {
+    public int getCountOfRelation(int faceIndex) {
         return maxfaceRelationCount[faceIndex];
     }
     
     public void setRelation(int srcFaceIndex, int dstFaceIndex, Cube heavier) {
-        int relationCount = heavier.getRelationCount(dstFaceIndex);
+        int relationCount = heavier.getCountOfRelation(dstFaceIndex);
         relationCount++;
-        int opositeFaceIndex = getOpositeFaceIndex(srcFaceIndex);
-        int maxRelationCount = getRelationCount(opositeFaceIndex);
+        int srcTopFaceIndex = getOpositeFaceIndex(srcFaceIndex);
+        int maxRelationCount = getCountOfRelation(srcTopFaceIndex);
         if (maxRelationCount < relationCount) {
-            maxfaceRelationCount[opositeFaceIndex] = relationCount;
-            String dstFaceID = heavier.createID(dstFaceIndex);
-            setDstFaceID(opositeFaceIndex, dstFaceID);
+            maxfaceRelationCount[srcTopFaceIndex] = relationCount;
+            int[] dstFaceID = heavier.createID(dstFaceIndex);
+            setDstFaceID(srcTopFaceIndex, dstFaceID);
         }
     }
     
+    private void setDstFaceID(int opositeFaceIndex, int[] dstFaceID) {
+        dstFaceIDs[opositeFaceIndex] = dstFaceID;
+    }
+
     private int getOpositeFaceIndex(int faceIndex) {
         int opositeFaceIndex = 0;
         if (faceIndex % 2 == 1) {
@@ -59,16 +63,13 @@ public class Cube {
         return opositeFaceIndex;
     }
     
-    private String createID(int dstFaceIndex) {
-        return cubeID + " " + faceNames[dstFaceIndex];
+    public int[] createID(int dstFaceIndex) {
+        int[] dstFaceID = {cubeID, dstFaceIndex};
+        return dstFaceID;
     }
     
-    private void setDstFaceID(int opositeFaceIndex, String dstFaceID) {
-        dstFaceIDs[opositeFaceIndex] = dstFaceID;
+    public int[] getDstTopFaceID(int srtTopFaceIndex) {
+        int[] dstTopFaceID = dstFaceIDs[srtTopFaceIndex];
+        return dstTopFaceID;
     }
-    
-    public String[] getDstFaceIDs() {
-        return dstFaceIDs;
-    }
-    
 }

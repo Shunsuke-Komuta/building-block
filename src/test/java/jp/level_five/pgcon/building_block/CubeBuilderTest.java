@@ -15,44 +15,6 @@ public class CubeBuilderTest {
         Cube.initilizeCubeCount();
     }
     
-    
-    @Test
-    public void test2IsExpectedWhenOpositefaceIs2() {
-        List<String> cubes = new ArrayList<String>();
-        String faces1 = "1 2 3 4 5 6";
-        cubes.add(faces1);
-        
-        CubeBuilder cubeBuilder = new CubeBuilder(cubes);
-        
-        String actual = cubeBuilder.getOpositeface("1 front");
-        
-        assertEquals("1 back", actual);
-    }
-    
-    @Test
-    public void test1IsExpectedWhenOpositefaceIs1() {
-        List<String> cubes = new ArrayList<String>();
-        String faces1 = "1 2 3 4 5 6";
-        cubes.add(faces1);
-        CubeBuilder cubeBuilder = new CubeBuilder(cubes);
-        
-        String actual = cubeBuilder.getOpositeface("1 back");
-        
-        assertEquals("1 front", actual);
-    }
-    
-    @Test
-    public void test4IsExpectedWhenOpositefaceIs4() {
-        List<String> cubes = new ArrayList<String>();
-        String faces1 = "1 2 3 4 5 6";
-        cubes.add(faces1);
-        CubeBuilder cubeBuilder = new CubeBuilder(cubes);
-        
-        String actual = cubeBuilder.getOpositeface("1 left");
-        
-        assertEquals("1 right", actual);
-    }
-    
     @Test
     public void test2CubesAreBuilt() {
         List<String> cubes = new ArrayList<String>();
@@ -135,6 +97,6 @@ public class CubeBuilderTest {
     
      List<String> actual = cubeBuilder.build();
     
-     assertEquals("1 back", actual.get(0));
+     assertEquals("1 top", actual.get(0));
      }
 }

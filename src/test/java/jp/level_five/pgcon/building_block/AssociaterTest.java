@@ -10,12 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AssociaterTest {
-    private List<String> cubes;
+    private List<String> cubeColors;
     private Associater associater;
     
     @Before
     public void setUp() {
-        cubes = new ArrayList<String>();
+        cubeColors = new ArrayList<String>();
         associater = new Associater();
     }
     
@@ -25,59 +25,73 @@ public class AssociaterTest {
     }
     
     @Test
-    public void test2backIsExpected() {
+    public void test2TOPIsExpected() {
         String colors1 = "1 2 3 4 5 6";
         String colors2 = "1 1 1 1 6 1";
-        cubes.add(colors1);
-        cubes.add(colors2);
-        associater = new Associater();
-        List<Cube> association = associater.setRelations(cubes);
-        Cube light = association.get(0);
-        String[] dstFaceIDs = light.getDstFaceIDs();
+        cubeColors.add(colors1);
+        cubeColors.add(colors2);
+        List<Cube> cubes = createCubes(cubeColors);
+        associater.setRelations(cubes);
+        Cube light = cubes.get(0);
         
-        String actual = dstFaceIDs[Cube.TOP];
+        int[] actual = light.getDstTopFaceID(Cube.TOP);
         
-        assertEquals("2 top", actual);
+        assertEquals(2, actual[0]);
+        assertEquals(Cube.TOP, actual[1]);
         }
     
     @Test
-    public void testNullCharcterIsExpected() {
-        cubes.add("1 2 3 4 5 6");
-        cubes.add("7 7 7 7 7 7");
-        List<Cube> association = associater.setRelations(cubes);
-        Cube light = association.get(0);
-        String[] dstFaceIDs = light.getDstFaceIDs();
+    public void test00IsExpected() {
+        cubeColors.add("1 2 3 4 5 6");
+        cubeColors.add("7 7 7 7 7 7");
+        List<Cube> cubes = createCubes(cubeColors);
+        associater.setRelations(cubes);
+        Cube light = cubes.get(0);
         
-        String actual = dstFaceIDs[Cube.FRONT];
+        int[] actual = light.getDstTopFaceID(Cube.TOP);
         
-        assertEquals("", actual);
+        assertEquals(0, actual[0]);
+        assertEquals(0, actual[1]);
+
     }
     
     @Test
     public void test3topIsExpected() {
-        cubes.add("1 2 3 4 5 6");
-        cubes.add("7 7 7 7 7 7");
-        cubes.add("7 7 7 7 6 7");
-        List<Cube> association = associater.setRelations(cubes);
-        Cube light = association.get(0);
-        String[] dstFaceIDs = light.getDstFaceIDs();
+        cubeColors.add("1 2 3 4 5 6");
+        cubeColors.add("7 7 7 7 7 7");
+        cubeColors.add("7 7 7 7 6 7");
+        List<Cube> cubes = createCubes(cubeColors);
+        associater.setRelations(cubes);
+        Cube light = cubes.get(0);
         
-        String actual = dstFaceIDs[Cube.TOP];
+        int[] actual = light.getDstTopFaceID(Cube.TOP);
         
-        assertEquals("3 top", actual);
+        assertEquals(3, actual[0]);
+        assertEquals(Cube.TOP, actual[1]);
     }
     
     @Test
     public void test2IsExpectedWhen2BlocksAreBuilt() {
-        cubes.add("1 2 3 4 5 6");
-        cubes.add("7 7 7 7 6 7");
-        cubes.add("7 7 7 7 6 7");
-        List<Cube> association = associater.setRelations(cubes);
-        Cube light = association.get(0);
+        cubeColors.add("1 2 3 4 5 6");
+        cubeColors.add("7 7 7 7 6 7");
+        cubeColors.add("7 7 7 7 6 7");
+        List<Cube> cubes = createCubes(cubeColors);
+        associater.setRelations(cubes);
+        Cube light = cubes.get(0);
 
-        int actual = light.getRelationCount(Cube.TOP);
+        int actual = light.getCountOfRelation(Cube.TOP);
         
         assertEquals(2, actual);
     }
+    
+    private List<Cube> createCubes(List<String> cubeColors) {
+        List<Cube> cubes = new ArrayList<Cube>();
+        for (String cubeColor : cubeColors) {
+            Cube cube = new Cube(cubeColor);
+            cubes.add(cube);
+        }
+        return cubes;
+    }
+
 }
 

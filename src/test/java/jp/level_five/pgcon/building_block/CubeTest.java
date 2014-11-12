@@ -55,7 +55,7 @@ public class CubeTest {
     public void test0IsExpectedWhenCubeHasNoRelation() {
         Cube cube = new Cube("1 2 3 4 5 6");
         
-        int actual = cube.getRelationCount(Cube.FRONT);
+        int actual = cube.getCountOfRelation(Cube.FRONT);
         
         assertEquals(0, actual);
     }
@@ -66,23 +66,11 @@ public class CubeTest {
         Cube heavier = new Cube("6 7 8 9 10 11");
         light.setRelation(Cube.BOTTOM, Cube.FRONT, heavier);
         
-        int actual1 = light.getRelationCount(Cube.TOP);
-        int actual2 = light.getRelationCount(Cube.BOTTOM);
+        int actual1 = light.getCountOfRelation(Cube.TOP);
+        int actual2 = light.getCountOfRelation(Cube.BOTTOM);
         
         assertEquals(1, actual1);
         assertEquals(0, actual2);
-    }
-    
-    @Test
-    public void testReturnDstFaceIDWhenCubeHasRelation() {
-        Cube light = new Cube("1 2 3 4 5 6");
-        Cube heavier = new Cube("6 7 8 9 10 11");
-        light.setRelation(Cube.BOTTOM, Cube.FRONT, heavier);
-        String[] dstFaceIDs = light.getDstFaceIDs();
-        
-        String actual = dstFaceIDs[Cube.TOP];
-        
-        assertEquals("2 front", actual);
     }
     
     @Test
@@ -94,8 +82,20 @@ public class CubeTest {
         light.setRelation(Cube.BOTTOM, Cube.TOP, heavier);
         light.setRelation(Cube.BOTTOM, Cube.FRONT, heavier);
         
-        int actual = light.getRelationCount(Cube.TOP);
+        int actual = light.getCountOfRelation(Cube.TOP);
         
         assertEquals(2, actual);
+    }
+    
+    @Test
+    public void testReturnDstFaceIDWhenCubeHasRelation() {
+        Cube light = new Cube("1 2 3 4 5 6");
+        Cube heavier = new Cube("6 7 8 9 10 11");
+        light.setRelation(Cube.BOTTOM, Cube.FRONT, heavier);
+        
+        int[] actual = light.getDstTopFaceID(Cube.TOP);
+        
+        assertEquals(2, actual[0]);
+        assertEquals(Cube.FRONT, actual[1]);
     }
 }

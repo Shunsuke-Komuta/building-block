@@ -1,30 +1,15 @@
 package jp.level_five.pgcon.building_block;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Associater {
     
-    public Associater() {
-    }
-    
-    private List<Cube> createCubes(List<String> cubeColors) {
-        List<Cube> cubes = new ArrayList<Cube>();
-        for (String cubeColor : cubeColors) {
-            Cube cube = new Cube(cubeColor);
-            cubes.add(cube);
-        }
-        return cubes;
-    }
-    
-    public List<Cube> setRelations(List<String> cubeColors) {
-        List<Cube> cubes = createCubes(cubeColors);
+    public void setRelations(List<Cube> cubes) {
         for (int i = cubes.size(); i > 0; i--) {
             int cubeCount = i;
             Cube dstCube = cubes.get(cubeCount - 1);
             findSameColors(cubes, cubeCount, dstCube);
         }
-        return cubes;
     }
     
     private void findSameColors(List<Cube> cubes, int dstCubeCount, Cube dstCube) {
@@ -35,7 +20,6 @@ public class Associater {
                 Cube srcCube = cubes.get(srcCubeCount -1);
                 findSameColor(srcCube, dstCube, i);
             }
-            
         }
     }
     
@@ -50,4 +34,5 @@ public class Associater {
             srcFaceIndex++;
         }
     }
+
 }
