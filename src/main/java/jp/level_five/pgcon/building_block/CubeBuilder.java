@@ -26,8 +26,7 @@ public class CubeBuilder {
     public List<String> build() {
         List<String> builtCubes = buildCube(cubes);
         if (builtCubes.isEmpty()) {
-            Cube cube = cubes.get(0);
-            String stringTopFaceID = cube.getCubeCount() + " " + faceNames[Cube.TOP];
+            String stringTopFaceID = getAnyTopFaceID();
             builtCubes.add(stringTopFaceID);
         }
         return builtCubes;
@@ -39,19 +38,19 @@ public class CubeBuilder {
         while (hasNext(dstTopFaceID)) {
             int dstCubeCount = dstTopFaceID[0];
             int dstFaceIndex = dstTopFaceID[1];
-            Cube cube = cubes.get(dstCubeCount - 1); 
+            Cube cube = cubes.get(dstCubeCount - 1);
             dstTopFaceID = cube.getDstTopFaceID(dstFaceIndex);
             String result = dstCubeCount + " " + faceNames[dstFaceIndex];
             builtCubes.add(result);
         }
         return builtCubes;
     }
-
+    
     private int[] findTopFaceIDOfAll(List<Cube> cubes) {
         int maxCountOfRelation = 0;
         int[] topFaceID = new int[2];
-        for(Cube cube : cubes) {
-            for(int i = 0; i < 6; i++) {
+        for (Cube cube : cubes) {
+            for (int i = 0; i < 6; i++) {
                 int countOfRelation = cube.getCountOfRelation(i);
                 if (maxCountOfRelation < countOfRelation) {
                     maxCountOfRelation = countOfRelation;
@@ -65,5 +64,11 @@ public class CubeBuilder {
     
     private boolean hasNext(int[] topFaceIDOfAllCubes) {
         return topFaceIDOfAllCubes[0] != 0;
+    }
+    
+    private String getAnyTopFaceID() {
+        Cube cube = cubes.get(0);
+        String stringTopFaceID = cube.getCubeCount() + " " + faceNames[Cube.TOP];
+        return stringTopFaceID;
     }
 }

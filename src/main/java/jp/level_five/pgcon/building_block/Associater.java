@@ -17,7 +17,7 @@ public class Associater {
         for (int i = 0; i < dstColors.length; i++) {
             for (int j = dstCubeCount - 1; j > 0; j--) {
                 int srcCubeCount = j;
-                Cube srcCube = cubes.get(srcCubeCount -1);
+                Cube srcCube = cubes.get(srcCubeCount - 1);
                 findSameColor(srcCube, dstCube, i);
             }
         }
