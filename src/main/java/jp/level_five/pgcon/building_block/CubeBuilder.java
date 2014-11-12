@@ -27,13 +27,11 @@ public class CubeBuilder {
         List<String> builtCubes = buildCube(cubes);
         if (builtCubes.isEmpty()) {
             Cube cube = cubes.get(0);
-            int[] firstCubeID = cube.createID(Cube.TOP);
-            String stringTopFaceID = firstCubeID[0] + " " + faceNames[firstCubeID[1]];
+            String stringTopFaceID = cube.getCubeCount() + " " + faceNames[Cube.TOP];
             builtCubes.add(stringTopFaceID);
         }
         return builtCubes;
     }
-    
     
     private List<String> buildCube(List<Cube> cubes) {
         int[] dstTopFaceID = findTopFaceIDOfAll(cubes);
