@@ -62,40 +62,61 @@ public class CubeTest {
     
     @Test
     public void test1IsExpectedWhenCubeHasOneRelation() {
-        Cube light = new Cube("1 2 3 4 5 6");
-        Cube heavier = new Cube("6 7 8 9 10 11");
-        light.setRelation(Cube.BOTTOM, Cube.FRONT, heavier);
+        Cube cube = new Cube("1 2 3 4 5 6");
+        cube.setRelationCount(Cube.TOP, 1);
         
-        int actual1 = light.getCountOfRelation(Cube.TOP);
-        int actual2 = light.getCountOfRelation(Cube.BOTTOM);
+        int actual1 = cube.getCountOfRelation(Cube.TOP);
         
         assertEquals(1, actual1);
-        assertEquals(0, actual2);
     }
     
     @Test
     public void test2IsExpectedWhenCubeHasRelations() {
-        Cube light = new Cube("1 2 3 4 5 6");
-        Cube heavier = new Cube("6 7 8 9 6 11");
-        Cube moreHeavier = new Cube("12 7 13 14 15 16");
-        heavier.setRelation(Cube.BACK, Cube.BACK, moreHeavier);
-        light.setRelation(Cube.BOTTOM, Cube.TOP, heavier);
-        light.setRelation(Cube.BOTTOM, Cube.FRONT, heavier);
+        Cube cube = new Cube("1 2 3 4 5 6");
+        cube.setRelationCount(Cube.TOP, 2);
         
-        int actual = light.getCountOfRelation(Cube.TOP);
+        int actual = cube.getCountOfRelation(Cube.TOP);
         
         assertEquals(2, actual);
     }
     
     @Test
     public void testReturnDstFaceIDWhenCubeHasRelation() {
-        Cube light = new Cube("1 2 3 4 5 6");
-        Cube heavier = new Cube("6 7 8 9 10 11");
-        light.setRelation(Cube.BOTTOM, Cube.FRONT, heavier);
+        Cube cube = new Cube("1 2 3 4 5 6");
+        cube.setRelationCount(Cube.FRONT, 1);
+        cube.setRelationCount(Cube.LEFT, 2);
+        cube.setRelationCount(Cube.TOP, 3);
         
-        int[] actual = light.getDstTopFaceID(Cube.TOP);
+        int actual1 = cube.getCountOfRelation(Cube.FRONT);
+        int actual2 = cube.getCountOfRelation(Cube.LEFT);
+        int actual3 = cube.getCountOfRelation(Cube.TOP);
+        
+        assertEquals(1, actual1);
+        assertEquals(2, actual2);
+        assertEquals(3, actual3);
+    }
+    
+    @Test
+    public void test2TOPIsExpeceted() {
+        Cube srcCube = new Cube("1 2 3 4 5 6");
+        int[] dstFaceID = {2, Cube.TOP};
+        srcCube.setDstFaceID(Cube.TOP, dstFaceID);
+        
+        int[] actual = srcCube.getDstTopFaceID(Cube.TOP);
         
         assertEquals(2, actual[0]);
-        assertEquals(Cube.FRONT, actual[1]);
+        assertEquals(Cube.TOP, actual[1]);
+    }
+    
+    @Test
+    public void test3FRONTIsExpeceted() {
+        Cube srcCube = new Cube("1 2 3 4 5 6");
+        int[] dstFaceID = {3, Cube.TOP};
+        srcCube.setDstFaceID(Cube.FRONT, dstFaceID);
+        
+        int[] actual = srcCube.getDstTopFaceID(Cube.FRONT);
+        
+        assertEquals(3, actual[0]);
+        assertEquals(Cube.TOP, actual[1]);
     }
 }
