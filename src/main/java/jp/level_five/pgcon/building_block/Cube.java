@@ -13,7 +13,7 @@ public class Cube {
     private final int cubeID;
     private String[] colorIDs;
     
-    private int[] maxfaceRelationCount = new int[6];
+    private int[] maxRelationCountArray = new int[6];
     private int[][] dstFaceIDs = new int[6][2];
     
     public static void initilizeCubeCount() {
@@ -33,43 +33,21 @@ public class Cube {
         return colorIDs;
     }
     
+    public void setRelationCount(int topFaceIndex, int relationCount) {
+        maxRelationCountArray[topFaceIndex] = relationCount;
+    }
+    
     public int getCountOfRelation(int faceIndex) {
-        return maxfaceRelationCount[faceIndex];
+        return maxRelationCountArray[faceIndex];
     }
     
-    public void setRelation(int srcFaceIndex, int dstFaceIndex, Cube heavier) {
-        int relationCount = heavier.getCountOfRelation(dstFaceIndex);
-        relationCount++;
-        int srcTopFaceIndex = getOpositeFaceIndex(srcFaceIndex);
-        int maxRelationCount = getCountOfRelation(srcTopFaceIndex);
-        if (maxRelationCount < relationCount) {
-            maxfaceRelationCount[srcTopFaceIndex] = relationCount;
-            int[] dstFaceID = heavier.createID(dstFaceIndex);
-            setDstFaceID(srcTopFaceIndex, dstFaceID);
-        }
+    public void setDstFaceID(int topFaceIndex, int[] dstFaceID) {
+        dstFaceIDs[topFaceIndex] = dstFaceID;
     }
     
-    private void setDstFaceID(int opositeFaceIndex, int[] dstFaceID) {
-        dstFaceIDs[opositeFaceIndex] = dstFaceID;
-    }
-
-    private int getOpositeFaceIndex(int faceIndex) {
-        int opositeFaceIndex = 0;
-        if (faceIndex % 2 == 1) {
-            opositeFaceIndex = faceIndex - 1;
-        } else {
-            opositeFaceIndex = faceIndex + 1;
-        }
-        return opositeFaceIndex;
-    }
-    
-    public int[] createID(int dstFaceIndex) {
-        int[] dstFaceID = {cubeID, dstFaceIndex};
-        return dstFaceID;
-    }
-    
-    public int[] getDstTopFaceID(int srtTopFaceIndex) {
-        int[] dstTopFaceID = dstFaceIDs[srtTopFaceIndex];
+    public int[] getDstTopFaceID(int topFaceIndex) {
+        int[] dstTopFaceID = dstFaceIDs[topFaceIndex];
         return dstTopFaceID;
     }
+
 }
